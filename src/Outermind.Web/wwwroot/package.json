@@ -1,7 +1,7 @@
 {
-  "name": "pmx",
+  "name": "outermind",
   "version": "1.0.0",
-  "description": "A Vue.js project",
+  "description": "A workspace for constructing your software experience",
   "author": "",
   "private": true,
   "scripts": {
@@ -15,10 +15,8 @@
   },
   "dependencies": {
     "@aspnet/signalr": "^1.1.4",
-    "rxjs": "^6.5.4",
-    "totem-timeline": "^1.0.0-beta.9",
-    "totem-timeline-signalr": "^1.0.0-beta.9",
-    "totem-timeline-vue": "^1.0.0-beta.9"
+    "moment": "^2.24.0",
+    "rxjs": "^6.5.4"
   },
   "devDependencies": {
     "@babel/core": "^7.5.5",
@@ -48,8 +46,6 @@
     "html-webpack-plugin": "^3.2.0",
     "lodash": "^4.17.15",
     "mini-css-extract-plugin": "^0.8.0",
-    "moment": "^2.24.0",
-    "moment-range": "^4.0.2",
     "optimize-css-assets-webpack-plugin": "^3.2.0",
     "portal-vue": "^2.1.6",
     "postcss-import": "^11.0.0",

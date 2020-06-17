@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Outermind\Outermind.csproj" />
+    <ProjectReference Include="..\..\src\Outermind\Outermind.csproj" />
   </ItemGroup>
 
 </Project>

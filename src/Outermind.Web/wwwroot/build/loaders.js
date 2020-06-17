@@ -1,3 +1,4 @@
+let MiniCssExtractPlugin = require("mini-css-extract-plugin");
 let rootPath = require("./rootPath");
 let staticPath = require("./staticPath");
 
