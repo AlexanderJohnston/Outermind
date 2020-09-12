@@ -173,8 +173,7 @@
         this.cards = SurfaceMath.dragCard(this.grid, this.cards, e.card, x, y);
       },
       removeCard(e) {
-        console.log(`Removing ${e.card.id}`);
-        console.log(this.cards.filter(card => card.id == e.card.id));
+        Timeline.http.deleteJson('/api/card/remove', { body: e.card });
       },
     },
   };
