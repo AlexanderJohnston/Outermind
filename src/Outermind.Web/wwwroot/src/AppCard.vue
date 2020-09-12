@@ -24,7 +24,7 @@
 
   export default {
     components: { AppContent },
-    props: ["card"],
+    props: ["card", "surfaceKey"],
     data() {
       return {
         ctrl: false,
@@ -33,6 +33,7 @@
         drag: null,
         dragging: false,
         resizing: false,
+        lastKey: null,
       }
     },
     computed: {
@@ -86,6 +87,10 @@
     },
     methods: {
       keychange(e) {
+        if (e.type === 'keydown')
+          this.lastKey = e.key;
+        else
+          this.lastKey = null;
         this.ctrl = e.ctrlKey;
         this.shift = e.shiftKey;
       },
@@ -93,7 +98,7 @@
         if(this.drag) {
           return;
         }
-
+        
         let bounds = this.$el.getBoundingClientRect();
 
         let top = e.clientY - bounds.top;
@@ -121,6 +126,11 @@
       },
       mousedown() {
         this.$emit("selectCard", { card: this.card });
+        if(this.lastKey === 'x' || this.surfaceKey === 'x') {
+          console.log(`I'm in ${this.card.id} card`);
+          this.$emit("removeCard", { card: this.card });
+          this.lastKey = null;
+        }
       },
       overlayMousedown(e) {
         document.addEventListener("mousemove", this.mousemove);

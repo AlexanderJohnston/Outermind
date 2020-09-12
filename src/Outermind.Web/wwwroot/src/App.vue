@@ -19,9 +19,11 @@
         v-for="card in cards"
         :key="card.id"
         :card="card"
+        :surfaceKey="surfaceKey"
         @selectCard="selectCard"
         @resizeCard="resizeCard"
         @dragCard="dragCard"
+        @removeCard="removeCard"
       />
     </div>
   </v-app>
@@ -50,6 +52,7 @@
         newCard: null,
         cards: [],
         cardId: 0,
+        surfaceKey: null,
       };
     },
     computed: {
@@ -105,6 +108,10 @@
         }
       },
       keychange(e) {
+        if(e.type === 'keydown')
+          this.surfaceKey = e.key;
+        else
+          this.surfaceKey = null;
         this.ctrl = e.ctrlKey;
       },
       mousedown(e) {
@@ -164,6 +171,10 @@
         const y = e.y - this.top;
 
         this.cards = SurfaceMath.dragCard(this.grid, this.cards, e.card, x, y);
+      },
+      removeCard(e) {
+        console.log(`Removing ${e.card.id}`);
+        console.log(this.cards.filter(card => card.id == e.card.id));
       },
     },
   };
