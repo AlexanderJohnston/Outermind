@@ -13,9 +13,7 @@ module.exports = function(isProduction) {
     resolve: {
       extensions: [".js", ".vue", ".json"],
       alias: {
-        "vue$": "vue/dist/vue.esm.js",
-        "@": rootPath("src"),
-        "area": rootPath("src/area")
+        "vue$": "vue/dist/vue.esm.js"
       }
     },
     devtool: isProduction ?
