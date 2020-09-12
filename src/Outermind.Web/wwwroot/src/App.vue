@@ -94,7 +94,7 @@
     },
     methods: {
       loadExistingCards(response) {
-        const keys = Object.values(response.data.cards);
+        const keys = Object.values(response.data.stack);
         if (keys.length)
         {
           this.cards = this.cards.concat(keys);
