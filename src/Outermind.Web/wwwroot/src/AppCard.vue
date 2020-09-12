@@ -19,6 +19,7 @@
 </template>
 
 <script>
+  import Timeline from "totem-timeline";
   import AppContent from "./AppContent";
 
   export default {
@@ -29,7 +30,9 @@
         ctrl: false,
         shift: false,
         hover: null,
-        drag: null
+        drag: null,
+        dragging: false,
+        resizing: false,
       }
     },
     computed: {
@@ -136,6 +139,7 @@
         let { card, hover, drag } = this;
 
         if(hover && hover.resize) {
+          this.resizing = true;
           this.$emit("resizeCard", {
             card,
             hover,
@@ -144,6 +148,7 @@
           });
         }
         else {
+          this.dragging = true;
           this.$emit("dragCard", {
             card,
             x: e.clientX - drag.offsetX,
@@ -154,6 +159,15 @@
       mouseup() {
         document.removeEventListener("mousemove", this.mousemove);
         document.removeEventListener("mouseup", this.mouseup);
+
+        if (this.dragging) {
+          Timeline.http.postJson('/api/card/move', { body: this.card });
+          this.dragging = false;
+        }
+        if (this.resizing) {
+          Timeline.http.postJson('/api/card/resize', { body: this.card });
+          this.resizing = false;
+        }
 
         this.drag = null;
       }
