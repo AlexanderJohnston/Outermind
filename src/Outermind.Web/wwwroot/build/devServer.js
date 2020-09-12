@@ -21,7 +21,13 @@ module.exports = function(isProduction) {
       },
       publicPath: "/",
       proxy: {
-        "/api": "http://localhost:5000"
+        '/': 'http://localhost:5000',
+        "/api": "http://localhost:5000",
+        '/hubs': {
+          target: "http://localhost:5000",
+          ws: true
+        },
+        '/sockjs-node': "http://localhost:5000"
       },
       quiet: true,
       watchOptions: {
