@@ -12,8 +12,8 @@
     <app-content :cardId="card.id" />
 
     <div v-if="arranging" class="overlay" :style="overlayStyle" @mousedown.prevent.stop="overlayMousedown">
-      <div v-if="inspecting" class="top-corners" />
-      <div v-if="inspecting" class="bottom-corners" />
+      <div tag="div" v-if="inspecting" class="top-corners" />
+      <div tag="div" v-if="inspecting" class="bottom-corners" />
     </div>
   </q-item>
 </template>
@@ -127,7 +127,6 @@
       mousedown() {
         this.$emit("selectCard", { card: this.card });
         if(this.lastKey === 'x' || this.surfaceKey === 'x') {
-          console.log(`I'm in ${this.card.id} card`);
           this.$emit("removeCard", { card: this.card });
           this.lastKey = null;
         }
@@ -189,6 +188,7 @@
   .card {
     margin: 1px 0 0 1px;
     cursor: default;
+    background: white;
   }
 
   .card.inspecting {

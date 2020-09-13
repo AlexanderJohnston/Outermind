@@ -73,7 +73,7 @@
             cursor += symbols[i];
           }
         }
-
+        console.log(cursor);
         return !cursor ? null : { cursor: `${cursor}-resize` };
       }
     },

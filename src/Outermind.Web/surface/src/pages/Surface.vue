@@ -56,7 +56,17 @@
       };
     },
     watch: {
+      // This watch maps the web query onto this.cards to avoid refactoring this.cards
       data(args) {
+        // We need to track the current max card ID since the client is currently
+        // responsible for not sending bad or duplicate IDs.
+        const keys = Object.values(args.stack);
+        if (!keys.length)
+          return;
+        const maxCardId = keys
+            .map((existing) => parseInt(existing.id, 10))
+            .reduce((previous, current) => ((previous > current) ? previous : current));
+          this.cardId = maxCardId + 1;
         this.cards = Object.values(args.stack);
       }
     },
