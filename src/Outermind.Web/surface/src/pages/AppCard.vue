@@ -21,9 +21,12 @@
 <script>
   import Timeline from "totem-timeline";
   import AppContent from "./AppContent";
-
+  import QueryData from "totem-timeline-vue";
+  import Web from "../area/web.js";
+  
   export default {
     components: { AppContent },
+    mixins: [QueryData(Web.wildCard)],
     props: ["card", "surfaceKey"],
     data() {
       return {
@@ -34,6 +37,7 @@
         dragging: false,
         resizing: false,
         lastKey: null,
+        endpoint: "",
       }
     },
     computed: {
@@ -81,6 +85,8 @@
     mounted() {
       document.addEventListener("keydown", this.keychange);
       document.addEventListener("keyup", this.keychange);
+      // This is a portal to Abyss.
+      this.endpoint = this.card.endpoint;
     },
     beforeDestroy() {
       document.removeEventListener("keydown", this.keychange);

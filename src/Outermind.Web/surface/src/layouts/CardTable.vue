@@ -23,7 +23,7 @@
         <q-popup-edit @save="saveCard" value="" v-model="selectedCard.row" :cover="false">
           <q-input color="accent" v-model="selectedCard.row" dense autofocus>
             <template v-slot:prepend>
-              <q-icon name="record_voice_over" color="accent" />
+              <q-icon name="edit" color="accent" />
             </template>
           </q-input>
         </q-popup-edit>
@@ -36,7 +36,7 @@
         <q-popup-edit @save="saveCard" value="" v-model="selectedCard.rows" :cover="false">
           <q-input color="accent" v-model="selectedCard.rows" dense autofocus>
             <template v-slot:prepend>
-              <q-icon name="record_voice_over" color="accent" />
+              <q-icon name="edit" color="accent" />
             </template>
           </q-input>
         </q-popup-edit>
@@ -49,7 +49,7 @@
         <q-popup-edit @save="saveCard" value="" v-model="selectedCard.column" :cover="false">
           <q-input color="accent" v-model="selectedCard.column" dense autofocus>
             <template v-slot:prepend>
-              <q-icon name="record_voice_over" color="accent" />
+              <q-icon name="edit" color="accent" />
             </template>
           </q-input>
         </q-popup-edit>
@@ -62,7 +62,7 @@
         <q-popup-edit @save="saveCard" value="" v-model="selectedCard.columns" :cover="false">
           <q-input color="accent" v-model="selectedCard.columns" dense autofocus>
             <template v-slot:prepend>
-              <q-icon name="record_voice_over" color="accent" />
+              <q-icon name="edit" color="accent" />
             </template>
           </q-input>
         </q-popup-edit>
@@ -73,9 +73,9 @@
           <label class="col"> {{selectedCard.endpoint}} </label>
         </div>
         <q-popup-edit @save="saveCard" value="" v-model="selectedCard.endpoint" :cover="false">
-          <q-input color="accent" v-model="selectedCard.roendpointw" dense autofocus>
+          <q-input color="accent" v-model="selectedCard.endpoint" dense autofocus>
             <template v-slot:prepend>
-              <q-icon name="record_voice_over" color="accent" />
+              <q-icon name="edit" color="accent" />
             </template>
           </q-input>
         </q-popup-edit>
