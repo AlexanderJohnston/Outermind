@@ -8,7 +8,7 @@
           round
           icon="menu"
           aria-label="Menu"
-          @click="leftDrawerOpen = !leftDrawerOpen"
+          @click="toggleDrawer"
         />
 
         <q-toolbar-title>
@@ -56,6 +56,7 @@
 <script>
 import EssentialLink from 'components/EssentialLink.vue'
 import { date } from 'quasar';
+import Timeline from 'totem-timeline';
 
 const linksData = [
   {
@@ -85,6 +86,12 @@ export default {
     return {
       leftDrawerOpen: false,
       essentialLinks: linksData
+    }
+  },
+  methods: {
+    toggleDrawer() {
+      Timeline.append("layoutOffsetsChanged", { left: 300, top: null});
+      this.leftDrawerOpen = !this.leftDrawerOpen;
     }
   },
   computed: {

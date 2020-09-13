@@ -6,6 +6,7 @@
     tabindex="0"
     @mousedown.prevent="mousedown"
   >
+    <q-window-resize-observable @resize="onResize" />
     <q-item
       v-if="newCard"
       id="new-card"
@@ -39,8 +40,8 @@
     data() {
       return {
         grid: {
-          rows: 50,
-          columns: 50,
+          rows: 20,
+          columns: 20,
           cellWidth: 20,
           cellHeight: 20,
         },
@@ -52,7 +53,9 @@
         cards: [],
         cardId: 0,
         surfaceKey: null,
-        stackEndpoint: '/api/card/stack'
+        stackEndpoint: '/api/card/stack',
+        topOffset: 192,
+        leftOffset: 300,
       };
     },
     watch: {
@@ -68,6 +71,21 @@
             .reduce((previous, current) => ((previous > current) ? previous : current));
           this.cardId = maxCardId + 1;
         this.cards = Object.values(args.stack);
+      },
+      // The width/height watch is responsible for properly sizing the grid to avoid scrolling.
+      "$q.screen.width"() {
+        console.log(this.$q.screen.width);
+        console.log('left ' + this.$q.screen.width - this.leftOffset);
+        let columns = Math.floor((this.$q.screen.width - this.leftOffset) / 20);
+        console.log(columns);
+        this.grid.columns = columns;
+      },
+      "$q.screen.height"() {
+        console.log(this.$q.screen.height);
+        console.log('top ' + this.$q.screen.height - this.leftOffset);
+        let rows = Math.floor((this.$q.screen.height - this.topOffset) / 20);
+        console.log(rows);
+        this.grid.rows = rows;
       }
     },
     computed: {
@@ -117,6 +135,10 @@
       document.removeEventListener('keyup', this.keychange);
     },
     methods: {
+      onResize(size) {
+        console.log('hello');
+        console.log(size);
+      },
       loadExistingCards(response) {
         const keys = Object.values(response.data.stack);
         if (keys.length)

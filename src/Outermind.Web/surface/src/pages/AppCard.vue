@@ -160,8 +160,8 @@
           this.dragging = true;
           this.$emit("dragCard", {
             card,
-            x: e.clientX - drag.offsetX,
-            y: e.clientY - drag.offsetY
+            x: e.clientX - drag.offsetX - 300,
+            y: e.clientY - drag.offsetY - 192
           });
         }
       },
