@@ -1,5 +1,5 @@
 <template>
-  <v-sheet
+  <q-item
     :class="cardClass"
     :style="cardStyle"
     :elevation="Math.min(24, card.elevation)"
@@ -15,7 +15,7 @@
       <div v-if="inspecting" class="top-corners" />
       <div v-if="inspecting" class="bottom-corners" />
     </div>
-  </v-sheet>
+  </q-item>
 </template>
 
 <script>

@@ -1,31 +1,28 @@
 <template>
-  <div id="q-app">
-    <router-view />
-    <div
-      id="surface"
-      :class="surfaceClass"
-      :style="surfaceStyle"
-      tabindex="0"
-      @mousedown.prevent="mousedown"
-    >
-      <v-sheet
-        v-if="newCard"
-        id="new-card"
-        :style="newCardStyle"
-        :elevation="Math.min(24, newCard.elevation)"
-        tile
-      />
-      <app-card
-        v-for="card in cards"
-        :key="card.id"
-        :card="card"
-        :surfaceKey="surfaceKey"
-        @selectCard="selectCard"
-        @resizeCard="resizeCard"
-        @dragCard="dragCard"
-        @removeCard="removeCard"
-      />
-    </div>
+  <div
+    id="surface"
+    :class="surfaceClass"
+    :style="surfaceStyle"
+    tabindex="0"
+    @mousedown.prevent="mousedown"
+  >
+    <q-item
+      v-if="newCard"
+      id="new-card"
+      :style="newCardStyle"
+      :elevation="Math.min(24, newCard.elevation)"
+      tile
+    />
+    <app-card
+      v-for="card in cards"
+      :key="card.id"
+      :card="card"
+      :surfaceKey="surfaceKey"
+      @selectCard="selectCard"
+      @resizeCard="resizeCard"
+      @dragCard="dragCard"
+      @removeCard="removeCard"
+    />
   </div>
 </template>
 <script>
@@ -43,7 +40,7 @@
       return {
         grid: {
           rows: 50,
-          columns: 80,
+          columns: 50,
           cellWidth: 20,
           cellHeight: 20,
         },
@@ -194,22 +191,22 @@
 </script>
 
 <style>
-.surface {
+#surface {
   display: grid;
   background: linear-gradient(to right, #b3e5fc 1px, transparent 1px),
     linear-gradient(to bottom, #b3e5fc 1px, transparent 1px);
   background-color: white;
 }
 
-.surface.dragging {
+#surface.dragging {
   cursor: grabbing;
 }
 
-.surface.ctrl {
+#surface.ctrl {
   cursor: cell;
 }
 
-.new-card {
+#new-card {
   margin: 1px 0 0 1px;
 }
 </style>
