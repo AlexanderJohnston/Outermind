@@ -1,25 +1,32 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
-      <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="toggleDrawer"
-        />
+      <div class="row justify-between">
+        <div class="row-2">
+          <q-toolbar>
+            <q-btn
+              flat
+              dense
+              round
+              icon="menu"
+              aria-label="Menu"
+              @click="toggleDrawer"
+            />
 
-        <q-toolbar-title>
-          Totem App
-        </q-toolbar-title>
-
-        <div>Quasar v{{ $q.version }}</div>
-      </q-toolbar>
-      <div class="q-px-lg q-pt-xl q-mb-md">
-        <div class="text-h3"> Outermind </div>
-        <div class="text-subtitle1">{{todaysDate}}</div>
+            <q-toolbar-title class="title-bar">
+              Totem App
+            </q-toolbar-title>      
+          </q-toolbar>
+          <div class="q-px-lg q-pt-xl q-mb-md app-info">
+            <div class="text-h3"> Outermind </div>
+            <div class="text-subtitle1">{{todaysDate}}</div>
+          </div>
+        </div>
+        <div class="row-10">
+          <div class="">
+            <card-table :selectedCard="selectedCard"></card-table>
+          </div>
+        </div>
       </div>
       <q-img 
       src="../statics/totem-unsplash.jpg"
@@ -54,9 +61,12 @@
 </template>
 
 <script>
+import CardTable from './CardTable.vue';
 import EssentialLink from 'components/EssentialLink.vue'
 import { date } from 'quasar';
 import Timeline from 'totem-timeline';
+import QueryData from "totem-timeline-vue";
+import Queries from "../area/queries.js";
 
 const linksData = [
   {
@@ -81,16 +91,23 @@ const linksData = [
 
 export default {
   name: 'MainLayout',
-  components: { EssentialLink },
+  mixins: [QueryData(Queries.selectedCard, "selectedCard")],
+  components: {CardTable, EssentialLink },
   data () {
     return {
+      selectedCard: null,
       leftDrawerOpen: false,
       essentialLinks: linksData
     }
   },
   methods: {
     toggleDrawer() {
-      Timeline.append("layoutOffsetsChanged", { left: 300, top: null});
+      if (this.leftDrawerOpen) {
+        Timeline.append("layoutOffsetsChanged", { left: 0, top: null});
+      }
+      else {
+        Timeline.append("layoutOffsetsChanged", { left: 300, top: null});
+      }
       this.leftDrawerOpen = !this.leftDrawerOpen;
     }
   },
@@ -110,5 +127,25 @@ export default {
   z-index: -1;
   opacity: 0.4;
   filter: grayscale(100%);
+}
+
+.title-bar {
+  float: left;
+  max-width: 200px;
+}
+
+.card-table {
+  float: top;
+  height: 100%;
+  flex-direction: column;
+  display: flex;
+}
+
+.float-right {
+  float: right;
+}
+
+.app-info {
+  float: bottom;
 }
 </style>

@@ -6,7 +6,6 @@
     tabindex="0"
     @mousedown.prevent="mousedown"
   >
-    <q-window-resize-observable @resize="onResize" />
     <q-item
       v-if="newCard"
       id="new-card"
@@ -33,10 +32,16 @@
   import QueryHub from 'totem-timeline-signalr';
   import QueryData from "totem-timeline-vue";
   import Web from "../area/web.js";
+  import Queries from "../area/queries.js";
 
   export default {
     components: { AppCard },
-    mixins: [QueryData(Web.cardStack)],
+    mixins: [
+      QueryData(Web.cardStack), 
+      QueryData(Queries.layoutOffsets, "leftOffset", "topOffset"),
+      QueryData(Queries.updatedCard, "updatedCard"),
+    ],
+    props: ['notes'],
     data() {
       return {
         grid: {
@@ -56,6 +61,7 @@
         stackEndpoint: '/api/card/stack',
         topOffset: 192,
         leftOffset: 300,
+        updatedCard: null,
       };
     },
     watch: {
@@ -74,18 +80,19 @@
       },
       // The width/height watch is responsible for properly sizing the grid to avoid scrolling.
       "$q.screen.width"() {
-        console.log(this.$q.screen.width);
-        console.log('left ' + this.$q.screen.width - this.leftOffset);
         let columns = Math.floor((this.$q.screen.width - this.leftOffset) / 20);
-        console.log(columns);
         this.grid.columns = columns;
       },
       "$q.screen.height"() {
-        console.log(this.$q.screen.height);
-        console.log('top ' + this.$q.screen.height - this.leftOffset);
         let rows = Math.floor((this.$q.screen.height - this.topOffset) / 20);
-        console.log(rows);
         this.grid.rows = rows;
+      },
+      leftOffset() {
+        let columns = Math.floor((this.$q.screen.width - this.leftOffset) / 20);
+        this.grid.columns = columns;
+      },
+      updatedCard() {
+        this.updateCard(this.updatedCard);
       }
     },
     computed: {
@@ -118,6 +125,14 @@
         };
       },
     },
+    created() {
+      // resize the grid because it hasn't been observed yet.
+      // the -192 and -300 are offsets for the header and drawer.
+      let rows = Math.floor((this.$q.screen.height - this.topOffset) / 20) - 1;
+      this.grid.rows = rows;
+      let columns = Math.floor((this.$q.screen.width - this.leftOffset) / 20) - 1;
+      this.grid.columns = columns;
+    },
     async mounted() {
       // the automatic way of loading cards in.
       Timeline.console.enable();
@@ -135,10 +150,6 @@
       document.removeEventListener('keyup', this.keychange);
     },
     methods: {
-      onResize(size) {
-        console.log('hello');
-        console.log(size);
-      },
       loadExistingCards(response) {
         const keys = Object.values(response.data.stack);
         if (keys.length)
@@ -161,8 +172,8 @@
         document.addEventListener('mousemove', this.mousemove);
         document.addEventListener('mouseup', this.mouseup);
 
-        const originX = e.clientX - this.left;
-        const originY = e.clientY - this.top;
+        const originX = e.clientX - this.left - this.leftOffset;
+        const originY = e.clientY - this.top - this.topOffset;
 
         this.drag = { originX, originY };
 
@@ -175,12 +186,12 @@
         const { originX, originY } = this.drag;
 
         if (!newCard) {
-          this.top = e.clientY - originY;
-          this.left = e.clientX - originX;
+          this.top = e.clientY - originY - this.topOffset;
+          this.left = e.clientX - originX - this.leftOffset;
         }
         else {
-          const x = e.clientX - left;
-          const y = e.clientY - top;
+          const x = e.clientX - left - this.leftOffset;
+          const y = e.clientY - top - this.topOffset;
 
           this.newCard = SurfaceMath.resizeNewCard(grid, cards, newCard, originX, originY, x, y);
         }
@@ -202,6 +213,7 @@
       },
       selectCard(e) {
         this.cards = SurfaceMath.selectCard(this.cards, e.card);
+        Timeline.append("selectCard", {card: e.card});
       },
       resizeCard(e) {
         const x = e.x - this.left;
@@ -218,6 +230,9 @@
       removeCard(e) {
         Timeline.http.deleteJson('/api/card/remove', { body: e.card });
       },
+      updateCard(e) {
+        Timeline.http.postJson('/api/card/update', {body: e});
+      }
     },
   };
 </script>
@@ -240,5 +255,6 @@
 
 #new-card {
   margin: 1px 0 0 1px;
+  background: white;
 }
 </style>

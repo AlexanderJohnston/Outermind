@@ -1,6 +1,6 @@
 <template>
   <q-item
-    :class="cardClass"
+    :class="'cardClass shadow-' + Math.min(24, card.elevation)"
     :style="cardStyle"
     :elevation="Math.min(24, card.elevation)"
     tile
@@ -54,7 +54,8 @@
 
         return {
           gridArea: `${row} / ${column} / span ${rows} / span ${columns}`,
-          zIndex: elevation
+          zIndex: elevation,
+          background: "white",
         };
       },
       overlayStyle() {
@@ -246,4 +247,5 @@
     border-right: 2px solid #673AB7;
     border-bottom: 2px solid #673AB7;
   }
+  
 </style>
