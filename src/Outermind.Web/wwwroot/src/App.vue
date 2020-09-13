@@ -19,9 +19,11 @@
         v-for="card in cards"
         :key="card.id"
         :card="card"
+        :surfaceKey="surfaceKey"
         @selectCard="selectCard"
         @resizeCard="resizeCard"
         @dragCard="dragCard"
+        @removeCard="removeCard"
       />
     </div>
   </v-app>
@@ -32,9 +34,13 @@
   import Axios from 'axios';
   import SurfaceMath from './surfaceMath';
   import AppCard from './AppCard.vue';
+  import QueryHub from 'totem-timeline-signalr';
+  import QueryData from "totem-timeline-vue";
+  import Web from "./area/web.js";
 
   export default {
     components: { AppCard },
+    mixins: [QueryData(Web.cardStack)],
     data() {
       return {
         grid: {
@@ -50,7 +56,14 @@
         newCard: null,
         cards: [],
         cardId: 0,
+        surfaceKey: null,
+        stackEndpoint: '/api/card/stack'
       };
+    },
+    watch: {
+      data(args) {
+        this.cards = Object.values(args.stack);
+      }
     },
     computed: {
       surfaceClass() {
@@ -83,8 +96,14 @@
       },
     },
     async mounted() {
-      await Axios.get('http://localhost:8080/api/card/deck')
-        .then((response) => (this.loadExistingCards(response)));
+      // the automatic way of loading cards in.
+      Timeline.console.enable();
+      QueryHub.enable('/hubs/query');
+
+      // the manual way of loading cards in, to be removed when I'm not so lazy
+      // await Axios.get('http://localhost:8080/api/card/deck')
+      //   .then((response) => (this.loadExistingCards(response)));
+
       document.addEventListener('keydown', this.keychange);
       document.addEventListener('keyup', this.keychange);
     },
@@ -105,6 +124,10 @@
         }
       },
       keychange(e) {
+        if(e.type === 'keydown')
+          this.surfaceKey = e.key;
+        else
+          this.surfaceKey = null;
         this.ctrl = e.ctrlKey;
       },
       mousedown(e) {
@@ -164,6 +187,9 @@
         const y = e.y - this.top;
 
         this.cards = SurfaceMath.dragCard(this.grid, this.cards, e.card, x, y);
+      },
+      removeCard(e) {
+        Timeline.http.deleteJson('/api/card/remove', { body: e.card });
       },
     },
   };
