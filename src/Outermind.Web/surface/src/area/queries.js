@@ -26,9 +26,13 @@ export default {
     }),
     selectedCard: Timeline.query({
         name: "SelectedCard",
-        props: ["selectedCard"],
+        data: function() {
+            return {
+                selectedCard: {id: null, row: 0, rows: 0, column: 0, columns: 0, endpoint: ''},
+            }
+        },
         given: {
-            selectCard(e) {
+            openCard(e) {
                 this.selectedCard = e.card;
             }
         }

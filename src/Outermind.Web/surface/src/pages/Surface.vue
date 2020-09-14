@@ -215,7 +215,7 @@
       },
       selectCard(e) {
         this.cards = SurfaceMath.selectCard(this.cards, e.card);
-        Timeline.append("selectCard", {card: e.card});
+        Timeline.append("openCard", {card: e.card});
       },
       resizeCard(e) {
         const x = e.x - this.left - this.leftOffset;

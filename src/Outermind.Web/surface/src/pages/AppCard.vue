@@ -9,9 +9,9 @@
     @mouseleave="mouseleave"
     @mousedown.prevent.stop="mousedown">
 
-    <app-content :cardId="card.id" />
+    <app-content :cardId="card.id" :app="data"/>
 
-    <div v-if="arranging" class="overlay" :style="overlayStyle" @mousedown.prevent.stop="overlayMousedown">
+    <div v-if="arranging || selected" class="overlay" :style="overlayStyle" @mousedown.prevent.stop="overlayMousedown">
       <div tag="div" v-if="inspecting" class="top-corners" />
       <div tag="div" v-if="inspecting" class="bottom-corners" />
     </div>
@@ -27,7 +27,7 @@
   export default {
     components: { AppContent },
     mixins: [QueryData(Web.wildCard)],
-    props: ["card", "leftOffset", "topOffset", "surfaceKey"],
+    props: ["card", "surfaceKey", "selected", "topOffset", "leftOffset"],
     data() {
       return {
         ctrl: false,
