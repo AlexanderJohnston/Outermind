@@ -43,7 +43,7 @@
       QueryData(Queries.layoutOffsets, "leftOffset", "topOffset"),
       QueryData(Queries.updatedCard, "updatedCard"),
     ],
-    props: ['notes'],
+    props: ['notes', 'cards'],
     data() {
       return {
         grid: {
@@ -57,28 +57,32 @@
         left: 0,
         drag: null,
         newCard: null,
-        cards: [],
         cardId: 0,
         surfaceKey: null,
         stackEndpoint: '/api/card/stack',
         topOffset: 270,
         leftOffset: 300,
         updatedCard: null,
+        renderKey: 0,
       };
     },
     watch: {
       // This watch maps the web query onto this.cards to avoid refactoring this.cards
-      data(args) {
+      "data.stack"(args) {
         // We need to track the current max card ID since the client is currently
         // responsible for not sending bad or duplicate IDs.
-        const keys = Object.values(args.stack);
+        console.log('in the data watcher');
+        const keys = Object.values(args);
         if (!keys.length)
+        {
+          console.log('excuse me sir');
           return;
+        }
         const maxCardId = keys
             .map((existing) => parseInt(existing.id, 10))
             .reduce((previous, current) => ((previous > current) ? previous : current));
           this.cardId = maxCardId + 1;
-        this.cards = Object.values(args.stack);
+        //this.cards = keys;
       },
       // The width/height watch is responsible for properly sizing the grid to avoid scrolling.
       "$q.screen.width"() {
@@ -214,7 +218,8 @@
         }
       },
       selectCard(e) {
-        this.cards = SurfaceMath.selectCard(this.cards, e.card);
+        let newCards = SurfaceMath.selectCard(this.cards, e.card);
+        Timeline.append("updateCards", {cards: newCards});
         Timeline.append("openCard", {card: e.card});
       },
       resizeCard(e) {

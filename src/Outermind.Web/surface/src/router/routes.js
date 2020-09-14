@@ -3,9 +3,10 @@ const routes = [
   {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
+    props: true,
     children: [
       { path: '', component: () => import('pages/Index.vue') },
-      { path: 'surface', component: () => import('pages/Surface.vue') },
+      { path: 'surface', props: true, component: () => import('pages/Surface.vue') },
     ]
   },
   // Always leave this as last one,

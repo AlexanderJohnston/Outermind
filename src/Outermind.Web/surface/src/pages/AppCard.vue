@@ -9,7 +9,7 @@
     @mouseleave="mouseleave"
     @mousedown.prevent.stop="mousedown">
 
-    <app-content :cardId="card.id" :app="data"/>
+    <app-content :cardId="card.id" :app="displayData()"/>
 
     <div v-if="arranging || selected" class="overlay" :style="overlayStyle" @mousedown.prevent.stop="overlayMousedown">
       <div tag="div" v-if="inspecting" class="top-corners" />
@@ -27,7 +27,7 @@
   export default {
     components: { AppContent },
     mixins: [QueryData(Web.wildCard)],
-    props: ["card", "surfaceKey", "selected", "topOffset", "leftOffset"],
+    props: ["card", "surfaceKey", "selected", "topOffset", "leftOffset", "renderKey"],
     data() {
       return {
         ctrl: false,
@@ -93,6 +93,10 @@
       document.removeEventListener("keyup", this.keychange);
     },
     methods: {
+      displayData() {
+        console.log('new data on card');
+        return JSON.stringify(this.$data, null, 2);
+       },
       keychange(e) {
         if (e.type === 'keydown')
           this.lastKey = e.key;

@@ -33,6 +33,7 @@ export default {
         },
         given: {
             openCard(e) {
+                console.log('selected');
                 this.selectedCard = e.card;
             }
         }

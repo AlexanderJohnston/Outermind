@@ -55,7 +55,7 @@
     </q-drawer>
 
     <q-page-container>
-      <router-view />
+      <router-view :cards="Object.values(data.stack)" />
     </q-page-container>
   </q-layout>
 </template>
@@ -67,6 +67,7 @@ import { date } from 'quasar';
 import Timeline from 'totem-timeline';
 import QueryData from "totem-timeline-vue";
 import Queries from "../area/queries.js";
+import Web from '@area/web';
 
 const linksData = [
   {
@@ -91,13 +92,16 @@ const linksData = [
 
 export default {
   name: 'MainLayout',
-  mixins: [QueryData(Queries.selectedCard, "selectedCard")],
+  mixins: [QueryData(Queries.selectedCard, "selectedCard"),
+      QueryData(Web.cardStack), 
+  ],
   components: {CardTable, EssentialLink },
   data () {
     return {
       selectedCard: null,
       leftDrawerOpen: false,
-      essentialLinks: linksData
+      essentialLinks: linksData,
+      stackEndpoint: '/api/card/stack',
     }
   },
   methods: {

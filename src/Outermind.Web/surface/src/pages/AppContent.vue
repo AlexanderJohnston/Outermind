@@ -1,6 +1,6 @@
 <template>
   <div class="app-content">
-    <pre>{{appString}}</pre>
+    <pre>{{app}}</pre>
   </div>
 </template>
 
@@ -13,13 +13,8 @@
         appString: '',
       }
     },
-    watch: {
-      app() {
-        this.appString = JSON.stringify(this.app, null, 2);
-      }
-    },
     created(){
-      this.appString = JSON.stringify(this.app, null, 2);
+      //this.appString = JSON.stringify(this.app, null, 2);
     },
     methods: {
       syntaxHighlight(json) {
