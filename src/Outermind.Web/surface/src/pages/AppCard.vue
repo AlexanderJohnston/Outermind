@@ -1,6 +1,6 @@
 <template>
   <q-item
-    :class="'cardClass shadow-' + Math.min(24, card.elevation)"
+    :class="cardClass"
     :style="cardStyle"
     :elevation="Math.min(24, card.elevation)"
     tile
@@ -9,7 +9,9 @@
     @mouseleave="mouseleave"
     @mousedown.prevent.stop="mousedown">
 
-    <app-content :cardId="card.id" :app="displayData()"/>
+    <app-content :cardId="card.id" :app="displayData()">
+      <component :is="test" v-if="graphData()"/>
+    </app-content>
 
     <div v-if="arranging || selected" class="overlay" :style="overlayStyle" @mousedown.prevent.stop="overlayMousedown">
       <div tag="div" v-if="inspecting" class="top-corners" />
@@ -23,9 +25,10 @@
   import AppContent from "./AppContent";
   import QueryData from "totem-timeline-vue";
   import Web from "../area/web.js";
+  import GenericComponent from './components/GenericComponent.vue';
   
   export default {
-    components: { AppContent },
+    components: { AppContent, GenericComponent },
     mixins: [QueryData(Web.wildCard)],
     props: ["card", "surfaceKey", "selected", "topOffset", "leftOffset", "renderKey"],
     data() {
@@ -38,6 +41,7 @@
         resizing: false,
         lastKey: null,
         endpoint: "",
+        test: `GenericComponent`
       }
     },
     computed: {
@@ -48,10 +52,18 @@
         return this.ctrl && this.shift && this.hover;
       },
       cardClass() {
-        return ["card", {
+        let classes = [];
+        if(this.data)
+        {
+          classes.push("q-color-info");
+        }
+        classes.push({
           inspecting: this.inspecting,
           dragging: !!this.drag
-        }];
+        });
+        classes.push("card");
+        classes.push('cardClass shadow-' + Math.min(24, this.card.elevation));
+        return classes;
       },
       cardStyle() {
         let { rows, columns, row, column, elevation } = this.card;
@@ -59,7 +71,8 @@
         return {
           gridArea: `${row} / ${column} / span ${rows} / span ${columns}`,
           zIndex: elevation,
-          background: "white",
+          background: this.data ? "#ded9c3" : "white",
+          border: this.data ? "2px solid DodgerBlue" : "",
         };
       },
       overlayStyle() {
@@ -93,9 +106,13 @@
       document.removeEventListener("keyup", this.keychange);
     },
     methods: {
+      graphData() {
+        return this.endpoint === '/api/card/graph' ? true : false;
+      },
       displayData() {
+        //return "GenericComponent";
         console.log('new data on card');
-        return JSON.stringify(this.$data, null, 2);
+        return this.data ? JSON.stringify(this.data, null, 2) : JSON.stringify(this.$data, null, 2);
        },
       keychange(e) {
         if (e.type === 'keydown')

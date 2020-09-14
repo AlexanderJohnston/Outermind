@@ -55,7 +55,7 @@
     </q-drawer>
 
     <q-page-container>
-      <router-view :cards="Object.values(data.stack)" />
+      <router-view :cards="data ? Object.values(data.stack) : null" />
     </q-page-container>
   </q-layout>
 </template>

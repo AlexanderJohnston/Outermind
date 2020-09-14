@@ -1,12 +1,17 @@
 <template>
   <div class="app-content">
+    <slot></slot>
     <pre>{{app}}</pre>
   </div>
 </template>
 
 <script>
+import GenericComponent from './components/GenericComponent.vue';
+import Vue from 'vue';
+
   export default {
     props: ["cardId", "app"],
+    components: {GenericComponent},
     name: "TotallyContent",
     data() {
       return {
@@ -15,6 +20,18 @@
     },
     created(){
       //this.appString = JSON.stringify(this.app, null, 2);
+    },
+    computed: {
+      getComponent() {
+        if (this.app) {
+          console.log(this.app);
+          console.log('hi hi hi hi hi hi ');
+          return this.app;
+        }
+        else {
+          return "generic-component";
+        }
+      }
     },
     methods: {
       syntaxHighlight(json) {

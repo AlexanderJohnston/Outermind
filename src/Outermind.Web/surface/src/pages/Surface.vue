@@ -219,7 +219,7 @@
       },
       selectCard(e) {
         let newCards = SurfaceMath.selectCard(this.cards, e.card);
-        Timeline.append("updateCards", {cards: newCards});
+        // Timeline.append("updateCards", {cards: newCards});
         Timeline.append("openCard", {card: e.card});
       },
       resizeCard(e) {
