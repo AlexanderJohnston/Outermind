@@ -2,22 +2,23 @@
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
       <div class="row justify-between">
-        <div class="row-2">
-          <q-toolbar>
-            <q-btn
-              flat
-              dense
-              round
-              icon="menu"
-              aria-label="Menu"
-              @click="toggleDrawer"
-            />
-
-            <q-toolbar-title class="title-bar">
-              Totem App
-            </q-toolbar-title>      
+        <div class="column justify-between">
+          <q-toolbar class="col-2">
+            <div>
+              <q-btn
+                flat
+                dense
+                round
+                icon="menu"
+                aria-label="Menu"
+                @click="toggleDrawer"
+              />
+              <q-toolbar-title class="title-bar">
+                Totem App
+              </q-toolbar-title>      
+            </div>
           </q-toolbar>
-          <div class="q-px-lg q-pt-xl q-mb-md app-info">
+          <div class="col-8 q-px-lg q-pt-xl">
             <div class="text-h3"> Outermind </div>
             <div class="text-subtitle1">{{todaysDate}}</div>
           </div>
@@ -145,7 +146,4 @@ export default {
   float: right;
 }
 
-.app-info {
-  float: bottom;
-}
 </style>

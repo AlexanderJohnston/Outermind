@@ -1,12 +1,25 @@
 import Timeline from "totem-timeline";
 
 export default {
+    theStack: Timeline.query({
+        name: "TheStack",
+        data: function() {
+            return {
+                cards: [],
+            };
+        },
+        given: {
+            stackRenewed(e) {
+                this.cards = Object.values(e.stack);
+            }
+        },
+    }),
     layoutOffsets: Timeline.query({
       name: "LayoutOffsets",
       data: function() {
         return {
             leftOffset: 300,
-            topOffset: 192,
+            topOffset: 270,
         }
       },
       given: {
@@ -26,9 +39,13 @@ export default {
     }),
     selectedCard: Timeline.query({
         name: "SelectedCard",
-        props: ["selectedCard"],
+        data: function() {
+            return {
+                selectedCard: {id: null, row: 0, rows: 0, column: 0, columns: 0, endpoint: ''},
+            }
+        },
         given: {
-            selectCard(e) {
+            openCard(e) {
                 this.selectedCard = e.card;
             }
         }
@@ -38,6 +55,7 @@ export default {
         props: ["updatedCard"],
         given: {
             updateCard(e) {
+                console.log('did it work?');
                 this.updatedCard = e.card;
             }
         }

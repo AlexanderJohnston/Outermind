@@ -9,9 +9,9 @@
     @mouseleave="mouseleave"
     @mousedown.prevent.stop="mousedown">
 
-    <app-content :cardId="card.id" />
+    <app-content :cardId="card.id" :app="data" />
 
-    <div v-if="arranging" class="overlay" :style="overlayStyle" @mousedown.prevent.stop="overlayMousedown">
+    <div v-if="arranging || selected" class="overlay" :style="overlayStyle" @mousedown.prevent.stop="overlayMousedown">
       <div tag="div" v-if="inspecting" class="top-corners" />
       <div tag="div" v-if="inspecting" class="bottom-corners" />
     </div>
@@ -22,12 +22,12 @@
   import Timeline from "totem-timeline";
   import AppContent from "./AppContent";
   import QueryData from "totem-timeline-vue";
-  import Web from "../area/web.js";
+  import Web from "../../area/web.js";
   
   export default {
     components: { AppContent },
     mixins: [QueryData(Web.wildCard)],
-    props: ["card", "surfaceKey"],
+    props: ["card", "surfaceKey", "selected", "topOffset", "leftOffset"],
     data() {
       return {
         ctrl: false,
@@ -103,11 +103,12 @@
       },
       mousehover(e) {
         if(this.drag) {
+          console.log('dresses in drag');
           return;
         }
+        console.log('hello? am hover');
         
         let bounds = this.$el.getBoundingClientRect();
-
         let top = e.clientY - bounds.top;
         let left = e.clientX - bounds.left;
         let width = bounds.right - bounds.left;
@@ -125,6 +126,8 @@
           east,
           resize: north || south || west || east
         };
+        console.log(this.hover);
+
       },
       mouseleave() {
         if(!this.drag) {
@@ -132,7 +135,7 @@
         }
       },
       mousedown() {
-        this.$emit("selectCard", { card: this.card });
+        this.$emit("openCard", { card: this.card });
         if(this.lastKey === 'x' || this.surfaceKey === 'x') {
           this.$emit("removeCard", { card: this.card });
           this.lastKey = null;
@@ -142,7 +145,7 @@
         document.addEventListener("mousemove", this.mousemove);
         document.addEventListener("mouseup", this.mouseup);
 
-        this.$emit("selectCard", { card: this.card });
+        this.$emit("openCard", { card: this.card });
 
         let bounds = this.$el.getBoundingClientRect();
 
@@ -167,8 +170,8 @@
           this.dragging = true;
           this.$emit("dragCard", {
             card,
-            x: e.clientX - drag.offsetX - 300,
-            y: e.clientY - drag.offsetY - 192
+            x: e.clientX - drag.offsetX - this.leftOffset,
+            y: e.clientY - drag.offsetY - this.topOffset
           });
         }
       },

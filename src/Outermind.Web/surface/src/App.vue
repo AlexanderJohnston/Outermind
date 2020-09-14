@@ -6,9 +6,9 @@
 <script>
 import Timeline from 'totem-timeline';
 import QueryHub from 'totem-timeline-signalr';
-import Topics from '@area/topics.js';
-import Web from '@area/web';
-import Queries from '@area/queries';
+import Topics from './area/topics.js';
+import Web from './area/web';
+import Queries from './area/queries';
 import { HttpTransportType, LogLevel } from "@aspnet/signalr";
 
 export default {

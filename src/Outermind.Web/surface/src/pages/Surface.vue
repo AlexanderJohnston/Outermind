@@ -13,33 +13,37 @@
       :elevation="Math.min(24, newCard.elevation)"
       tile
     />
-    <app-card
-      v-for="card in cards"
-      :key="card.id"
-      :card="card"
+    <card-collection
+      :grid="grid"
+      :stack="cards"
       :surfaceKey="surfaceKey"
+      :topOffset="topOffset"
+      :leftOffset="leftOffset"
       @selectCard="selectCard"
       @resizeCard="resizeCard"
       @dragCard="dragCard"
       @removeCard="removeCard"
-    />
+    >
+    </card-collection>
   </div>
 </template>
 <script>
   import Timeline from 'totem-timeline';
   import SurfaceMath from '../surfaceMath';
-  import AppCard from './AppCard.vue';
+  import CardCollection from './components/CardCollection.vue';
   import QueryHub from 'totem-timeline-signalr';
   import QueryData from "totem-timeline-vue";
   import Web from "../area/web.js";
   import Queries from "../area/queries.js";
 
   export default {
-    components: { AppCard },
+    components: { CardCollection },
+    name: "Surface",
     mixins: [
-      QueryData(Web.cardStack), 
+      QueryData(Web.cardStack),
+      QueryData(Queries.theStack, "cards"),
       QueryData(Queries.layoutOffsets, "leftOffset", "topOffset"),
-      QueryData(Queries.updatedCard, "updatedCard"),
+      QueryData(Queries.selectedCard, "selectedCard"),
     ],
     props: ['notes'],
     data() {
@@ -50,34 +54,36 @@
           cellWidth: 20,
           cellHeight: 20,
         },
+        cards: [],
         ctrl: false,
         top: 0,
         left: 0,
         drag: null,
         newCard: null,
-        cards: [],
         cardId: 0,
         surfaceKey: null,
         stackEndpoint: '/api/card/stack',
-        topOffset: 192,
+        topOffset: 270,
         leftOffset: 300,
-        updatedCard: null,
       };
     },
     watch: {
-      // This watch maps the web query onto this.cards to avoid refactoring this.cards
-      data(args) {
-        // We need to track the current max card ID since the client is currently
-        // responsible for not sending bad or duplicate IDs.
-        const keys = Object.values(args.stack);
-        if (!keys.length)
-          return;
-        const maxCardId = keys
-            .map((existing) => parseInt(existing.id, 10))
-            .reduce((previous, current) => ((previous > current) ? previous : current));
-          this.cardId = maxCardId + 1;
-        this.cards = Object.values(args.stack);
-      },
+      // This watch maps the web query onto this.data.cards to avoid refactoring this.data.cards
+      // data(args) {
+      //   // We need to track the current max card ID since the client is currently
+      //   // responsible for not sending bad or duplicate IDs.
+      //   console.log('checking data');
+      //   const keys = Object.values(args.stack);
+      //   if (!keys.length)
+      //     return;
+      //   const maxCardId = keys
+      //       .map((existing) => parseInt(existing.id, 10))
+      //       .reduce((previous, current) => ((previous > current) ? previous : current));
+      //     this.cardId = maxCardId + 1;
+      //   //console.log(JSON.stringify(this.data.stack, null, 2 ));
+      //   this.data.cards = Object.values(this.data.stack);
+      //   //console.log(JSON.stringify(this.data.cards, null, 2 ));
+      // },
       // The width/height watch is responsible for properly sizing the grid to avoid scrolling.
       "$q.screen.width"() {
         let columns = Math.floor((this.$q.screen.width - this.leftOffset) / 20);
@@ -91,9 +97,6 @@
         let columns = Math.floor((this.$q.screen.width - this.leftOffset) / 20);
         this.grid.columns = columns;
       },
-      updatedCard() {
-        this.updateCard(this.updatedCard);
-      }
     },
     computed: {
       surfaceClass() {
@@ -127,17 +130,13 @@
     },
     created() {
       // resize the grid because it hasn't been observed yet.
-      // the -192 and -300 are offsets for the header and drawer.
+      // the -270 and -300 are offsets for the header and drawer.
       let rows = Math.floor((this.$q.screen.height - this.topOffset) / 20) - 1;
       this.grid.rows = rows;
       let columns = Math.floor((this.$q.screen.width - this.leftOffset) / 20) - 1;
       this.grid.columns = columns;
     },
     async mounted() {
-      // the automatic way of loading cards in.
-      Timeline.console.enable();
-      QueryHub.enable('/hubs/query');
-
       // the manual way of loading cards in, to be removed when I'm not so lazy
       // await Axios.get('http://localhost:8080/api/card/deck')
       //   .then((response) => (this.loadExistingCards(response)));
@@ -150,6 +149,9 @@
       document.removeEventListener('keyup', this.keychange);
     },
     methods: {
+      isCardSelected(id) {
+        return this.selectedCard.id == id
+      },
       loadExistingCards(response) {
         const keys = Object.values(response.data.stack);
         if (keys.length)
@@ -213,11 +215,11 @@
       },
       selectCard(e) {
         this.cards = SurfaceMath.selectCard(this.cards, e.card);
-        Timeline.append("selectCard", {card: e.card});
+        Timeline.append("openCard", {card: e.card});
       },
-      resizeCard(e) {
-        const x = e.x - this.left;
-        const y = e.y - this.top;
+      resizeCard({e}) {
+        const x = e.x - this.left - this.leftOffset;
+        const y = e.y - this.top - this.topOffset;
 
         this.cards = SurfaceMath.resizeCard(this.grid, this.cards, e.card, e.hover, x, y);
       },
@@ -229,9 +231,6 @@
       },
       removeCard(e) {
         Timeline.http.deleteJson('/api/card/remove', { body: e.card });
-      },
-      updateCard(e) {
-        Timeline.http.postJson('/api/card/update', {body: e});
       }
     },
   };
