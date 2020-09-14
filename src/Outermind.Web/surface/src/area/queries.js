@@ -6,7 +6,7 @@ export default {
       data: function() {
         return {
             leftOffset: 300,
-            topOffset: 192,
+            topOffset: 270,
         }
       },
       given: {

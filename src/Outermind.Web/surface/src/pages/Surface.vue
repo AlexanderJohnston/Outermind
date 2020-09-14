@@ -18,6 +18,8 @@
       :key="card.id"
       :card="card"
       :surfaceKey="surfaceKey"
+      :leftOffset="leftOffset"
+      :topOffset="topOffset"
       @selectCard="selectCard"
       @resizeCard="resizeCard"
       @dragCard="dragCard"
@@ -59,7 +61,7 @@
         cardId: 0,
         surfaceKey: null,
         stackEndpoint: '/api/card/stack',
-        topOffset: 192,
+        topOffset: 270,
         leftOffset: 300,
         updatedCard: null,
       };
@@ -216,8 +218,8 @@
         Timeline.append("selectCard", {card: e.card});
       },
       resizeCard(e) {
-        const x = e.x - this.left;
-        const y = e.y - this.top;
+        const x = e.x - this.left - this.leftOffset;
+        const y = e.y - this.top - this.topOffset;
 
         this.cards = SurfaceMath.resizeCard(this.grid, this.cards, e.card, e.hover, x, y);
       },
