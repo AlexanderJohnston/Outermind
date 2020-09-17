@@ -247,8 +247,8 @@
 <style>
 #surface {
   display: grid;
-  background: linear-gradient(to right, #b3e5fc 1px, transparent 1px),
-    linear-gradient(to bottom, #b3e5fc 1px, transparent 1px);
+  background: linear-gradient(to right, #94cbe4 1px, transparent 1px),
+    linear-gradient(to bottom, #94cbe4 1px, transparent 1px);
   background-color: white;
 }
 

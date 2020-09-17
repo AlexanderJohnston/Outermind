@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{1305B698
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Outermind.Tests", "tests\Outermind.Tests\Outermind.Tests.csproj", "{84562EE6-F838-46BF-A66D-6A1845694A02}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Outermind.Html", "src\Outermind.Html\Outermind.Html.csproj", "{1B690505-491F-49EB-8A52-1032A3349BDF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,12 +37,17 @@ Global
 		{84562EE6-F838-46BF-A66D-6A1845694A02}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{84562EE6-F838-46BF-A66D-6A1845694A02}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{84562EE6-F838-46BF-A66D-6A1845694A02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B690505-491F-49EB-8A52-1032A3349BDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B690505-491F-49EB-8A52-1032A3349BDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B690505-491F-49EB-8A52-1032A3349BDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B690505-491F-49EB-8A52-1032A3349BDF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{84562EE6-F838-46BF-A66D-6A1845694A02} = {1305B698-FB86-4BB3-BCB1-64371FB6B652}
+		{1B690505-491F-49EB-8A52-1032A3349BDF} = {1305B698-FB86-4BB3-BCB1-64371FB6B652}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D275920D-9E0C-4729-A4E8-93B236B1C173}

@@ -233,7 +233,7 @@
     left: -2px;
     right: -2px;
     bottom: -2px;
-    border: solid 2px #D1C4E9;
+    border: solid 2px #a585e0;
     margin: 1px;
   }
 
