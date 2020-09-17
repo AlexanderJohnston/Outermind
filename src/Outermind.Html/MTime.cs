@@ -2,9 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
+using Totem.IO;
 using static Totem.Timeline.FlowCall;
 
-namespace Totem.Html
+namespace Outermind.Html
 {
 	/// <summary>
 	/// A quotation of another source within an M document

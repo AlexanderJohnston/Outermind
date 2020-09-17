@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
-using Totem.Http;
+using Totem.IO;
 
-namespace Totem.Html
+namespace Outermind.Html
 {
 	/// <summary>
 	/// A hyperlink within an M document

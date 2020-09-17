@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Totem;
+using Totem.Runtime;
 
-namespace Totem.Html
+namespace Outermind.Html
 {
 	/// <summary>
 	/// A path through the various parts of M documents

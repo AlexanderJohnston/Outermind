@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
-using Totem.Http;
+using Totem.IO;
 
-namespace Totem.Html
+namespace Outermind.Html
 {
 	/// <summary>
 	/// Reads an M document from HTML text using LINQ to XML

@@ -1,8 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using Totem;
+using Totem.Runtime;
 
-namespace Totem.Html
+namespace Outermind.Html
 {
 	/// <summary>
 	/// A part of an M document
@@ -13,7 +15,7 @@ namespace Totem.Html
 
 		public abstract MPart Visit(MFlow flow);
 
-		public sealed override Text ToText()
+		public Text ToText()
 		{
 			return ToText();
 		}

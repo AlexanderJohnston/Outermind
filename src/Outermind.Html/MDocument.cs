@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
-using Totem.Http;
+using Totem;
 using Totem.IO;
 
-namespace Totem.Html
+namespace Outermind.Html
 {
 	/// <summary>
 	/// An M document

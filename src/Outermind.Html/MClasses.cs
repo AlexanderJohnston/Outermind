@@ -2,9 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Totem;
 using Totem.Runtime;
 
-namespace Totem.Html
+namespace Outermind.Html
 {
 	/// <summary>
 	/// The classes specifying the semantics of an M element
@@ -32,7 +33,7 @@ namespace Totem.Html
 			return GetEnumerator();
 		}
 
-		public override Text ToText()
+		public Text ToText()
 		{
 			return _names.ToTextSeparatedBy(" ");
 		}

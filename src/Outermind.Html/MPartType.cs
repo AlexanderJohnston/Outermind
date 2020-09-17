@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Totem.Html
+namespace Outermind.Html
 {
 	/// <summary>
 	/// The types of parts in an M document

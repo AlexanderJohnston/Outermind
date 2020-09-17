@@ -5,7 +5,7 @@ using Totem;
 using Totem.IO;
 using static Totem.Timeline.FlowCall;
 
-namespace Totem.Html
+namespace Outermind.Html
 {
 	/// <summary>
 	/// A language for defining and interpreting knowledge as HTML documents

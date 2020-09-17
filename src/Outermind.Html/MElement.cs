@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Totem.Html
+namespace Outermind.Html
 {
 	/// <summary>
 	/// A part of an M document representing an HTML element

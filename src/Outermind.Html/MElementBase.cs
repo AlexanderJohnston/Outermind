@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
+using Totem;
 
-namespace Totem.Html
+namespace Outermind.Html
 {
 	/// <summary>
 	/// Base implementation of a part of an M document representing an HTML element

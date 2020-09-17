@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Totem;
 
-namespace Totem.Html
+namespace Outermind.Html
 {
 	/// <summary>
 	/// Content within an M document

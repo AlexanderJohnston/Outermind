@@ -2,8 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
+using Totem.Runtime;
 
-namespace Totem.Html
+namespace Outermind.Html
 {
 	/// <summary>
 	/// The global attributes, data attributes, and content associated with an M element

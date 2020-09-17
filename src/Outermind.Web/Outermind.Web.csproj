@@ -10,6 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Outermind.Html\Outermind.Html.csproj" />
     <ProjectReference Include="..\Outermind\Outermind.csproj" />
   </ItemGroup>
 
