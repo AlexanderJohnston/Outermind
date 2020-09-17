@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -45,8 +45,8 @@ namespace Totem.Html
 				case MPartType.DescriptionList: return flow.WhenDescriptionList(this);
 				case MPartType.DescriptionTerm: return flow.WhenDescriptionTerm(this);
 				case MPartType.Description: return flow.WhenDescription(this);
-				default: throw Issue.InPlatform("UnsupportedPartType", PartType);
-			}
+				default: throw new Exception($"UnsupportedPartType:{PartType}");
+      }
 		}
 
 		protected override string GetXElementName()
@@ -76,7 +76,7 @@ namespace Totem.Html
 				case MPartType.DescriptionList: return "dl";
 				case MPartType.DescriptionTerm: return "dt";
 				case MPartType.Description: return "dd";
-				default: throw Issue.InPlatform("UnsupportedPartType", PartType);
+				default: throw new Exception($"UnsupportedPartType:{PartType}");
 			}
 		}
 

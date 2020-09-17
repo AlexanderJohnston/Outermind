@@ -9,11 +9,11 @@ namespace Totem.Html
 	/// <summary>
 	/// Reads an M document from HTML text using LINQ to XML
 	/// </summary>
-	internal static class MDocumentReader
+	public static class MDocumentReader
 	{
-		internal static MDocument ReadMDocument(this XDocument xml)
+		public static MDocument ReadMDocument(this XDocument xml)
 		{
-			xml.Root.ExpectName("html");
+			//xml.Root.ExpectName("html");
 
 			return M.Document(
 				xml.ReadDocumentClasses(),
@@ -30,10 +30,10 @@ namespace Totem.Html
 
 		private static MDocumentHead ReadDocumentHead(this XDocument xml)
 		{
-			var head = xml.Root.RequiredElement("head");
+			var head = xml.Root.Element("head");
 
 			return M.DocumentHead(
-				head.RequiredElement("title").RequiredString(),
+				head.Element("title").ToString(),
 				head.ReadDocumentBase(),
 				head.Elements("link").Select(ReadDocumentLink));
 		}
@@ -61,12 +61,12 @@ namespace Totem.Html
 
 		private static Href RequiredHref(this XElement element, string attributeName = "href")
 		{
-			return Href.From(element.RequiredAttribute(attributeName).RequiredString());
+			return Href.From(element.Attribute(attributeName).ToString());
 		}
 
 		private static MElement ReadDocumentBody(this XDocument html)
 		{
-			return html.Root.RequiredElement("body").ReadElement(MPartType.DocumentBody);
+			return html.Root.Element("body").ReadElement(MPartType.DocumentBody);
 		}
 
 		//
@@ -113,7 +113,7 @@ namespace Totem.Html
 			switch(element.Name.ToString())
 			{
 				case "span":
-				case "div": return element.ReadContent();
+				case "div": return element.ReadElement(MPartType.Section);/*element.ReadContent();*/
 				case "main": return element.ReadElement(MPartType.Main);
 				case "header": return element.ReadElement(MPartType.Header);
 				case "footer": return element.ReadElement(MPartType.Footer);
@@ -172,7 +172,7 @@ namespace Totem.Html
 
 		private static MForm ReadForm(this XElement element)
 		{
-			var name = element.RequiredAttribute("name").RequiredString();
+			var name = element.Attribute("name").ToString();
 			var action = element.RequiredHref("action");
 			var contentType = element.Attribute("enctype");
 

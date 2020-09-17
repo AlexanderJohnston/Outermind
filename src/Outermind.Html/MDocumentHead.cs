@@ -1,6 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Xml;
 using System.Xml.Linq;
 using Totem.Http;
 
@@ -43,10 +45,22 @@ namespace Totem.Html
 
 		public override Text ToText(bool indent)
 		{
-			return ((XElement) ToXml()).ToText(indent);
-		}
+      var document = ((XElement)ToXml());
 
-		public override object ToXml()
+      StringBuilder sb = new StringBuilder();
+      XmlWriterSettings xws = new XmlWriterSettings();
+      xws.OmitXmlDeclaration = true;
+      xws.Indent = true;
+
+      using (XmlWriter xw = XmlWriter.Create(sb, xws))
+      {
+        document.Save(xw);
+      }
+
+      return sb.ToString();
+    }
+
+    public override object ToXml()
 		{
 			return new XElement("head", GetXElementContent());
 		}

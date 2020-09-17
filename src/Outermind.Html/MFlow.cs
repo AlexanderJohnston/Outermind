@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Totem.Runtime;
 
 namespace Totem.Html
 {
@@ -32,7 +31,7 @@ namespace Totem.Html
 			}
 			catch(InvalidCastException exception)
 			{
-				throw new Exception($"PartIsNotSameType: Type = ${visitedNode.GetType()}, Expected = ${typeof(TPart)}");
+				throw new Exception($"PartIsNotSameType:Type = {visitedNode.GetType()}:Expected = {typeof(TPart)}:{Environment.NewLine}{exception.Message.ToString()}");
 			}
 		}
 
