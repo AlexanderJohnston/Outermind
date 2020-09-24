@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Totem.App.Web;
+using Totem.Timeline.Hosting;
 
 namespace Outermind.Web
 {
@@ -9,6 +10,6 @@ namespace Outermind.Web
   public static class Program
   {
     static Task Main() =>
-      WebApp.Run<OutermindArea>();
+      WebApp.Run<OutermindArea>(/*(configuration) => { }*/);
   }
 }
