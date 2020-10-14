@@ -111,7 +111,7 @@
       },
       displayData() {
         //return "GenericComponent";
-        console.log('new data on card');
+        //console.log('new data on card');
         return this.data ? JSON.stringify(this.data, null, 2) : JSON.stringify(this.$data, null, 2);
        },
       keychange(e) {
@@ -198,10 +198,12 @@
         document.removeEventListener("mouseup", this.mouseup);
 
         if (this.dragging) {
-          Timeline.http.postJson('/api/card/move', { body: this.card });
+          console.log('fired dragging');
+          Timeline.append("moveCard", {card: this.card});
           this.dragging = false;
         }
         if (this.resizing) {
+          console.log('fired resizing');
           Timeline.http.postJson('/api/card/resize', { body: this.card });
           this.resizing = false;
         }

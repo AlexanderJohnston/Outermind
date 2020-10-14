@@ -46,12 +46,9 @@ export default{
     },
     cards: {
       get() {
-        console.log('getting');
         return this.stack;
       },
       set(stack) {
-        console.log('setting');
-        console.log(stack);
         return stack;
       }
     },

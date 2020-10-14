@@ -46,7 +46,7 @@ function resizeNewCard(grid, cards, newCard, originX, originY, x, y) {
 }
 
 function selectCard(cards, card) {
-  let others = cards
+  let others = Object.values(cards)
     .filter(({ id }) => id !== card.id)
     .sort((a, b) => a.elevation - b.elevation);
 
@@ -174,7 +174,7 @@ function areasOverlap(area0, area1) {
 }
 
 function elevateArea(area, others) {
-  let overlapElevations = others
+  let overlapElevations = Object.values(others)
     .filter(other => areasOverlap(area, other))
     .map(other => other.elevation)
     .concat(0);

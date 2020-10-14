@@ -53,7 +53,7 @@ namespace Outermind.Controllers
       return await _commands.Execute(resizing, When<CardResized>.ThenOk);
     }
 
-    [HttpPost("[action]")]
+    [HttpDelete("[action]")]
     public async Task<IActionResult> Remove([FromBody] Card card)
     {
       var removing = new RemoveCard(card);

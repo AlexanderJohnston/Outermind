@@ -21,14 +21,12 @@ namespace Outermind.Queries
     {
       var selected = Matching(e.Card);
       selected.Update(e.Card);
-      Refresh(selected);
     }
 
     void Given(CardResized e)
     {
       var selected = Matching(e.Card);
       selected.Update(e.Card);
-      Refresh(selected);
     }
 
     void Given(CardRemoved e)

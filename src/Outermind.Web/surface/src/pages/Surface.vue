@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="loaded"
     id="surface"
     :class="surfaceClass"
     :style="surfaceStyle"
@@ -14,7 +15,7 @@
       tile
     />
     <app-card
-      v-for="card in cards"
+      v-for="card in data.stack"
       :key="card.id"
       :card="card"
       :surfaceKey="surfaceKey"
@@ -36,14 +37,14 @@
   import Web from "../area/web.js";
   import Queries from "../area/queries.js";
 
-  export default {
+export default {
     components: { AppCard },
     mixins: [
       QueryData(Web.cardStack), 
       QueryData(Queries.layoutOffsets, "leftOffset", "topOffset"),
       QueryData(Queries.updatedCard, "updatedCard"),
     ],
-    props: ['notes', 'cards'],
+    props: ['notes'],
     data() {
       return {
         grid: {
@@ -71,7 +72,7 @@
       "data.stack"(args) {
         // We need to track the current max card ID since the client is currently
         // responsible for not sending bad or duplicate IDs.
-        console.log('in the data watcher');
+        //console.log('in the data watcher');
         const keys = Object.values(args);
         if (!keys.length)
         {
@@ -102,6 +103,14 @@
       }
     },
     computed: {
+      cards: {
+        get: function() {
+          return this.data.stack;
+        },
+        set: function(newValue) {
+          this.data.stack = newValue;
+        }
+      },
       surfaceClass() {
         return {
           ctrl: this.ctrl,
@@ -213,7 +222,7 @@
           Timeline.http.putJson('/api/card/create', { body: card });
 
           this.newCard = null;
-          this.cards.push(card);
+          this.data.stack.push(card);
           this.cardId += 1;
         }
       },
@@ -238,7 +247,8 @@
         Timeline.http.deleteJson('/api/card/remove', { body: e.card });
       },
       updateCard(e) {
-        Timeline.http.postJson('/api/card/update', {body: e});
+        console.log('why is this here?');
+        //Timeline.http.postJson('/api/card/update', {body: e});
       }
     },
   };

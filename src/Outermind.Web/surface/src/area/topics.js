@@ -11,6 +11,10 @@ Timeline.topic({
         async stackRenewed(e) {
             this.cards = e.stack;
         },
+        async moveCard(e) {
+            console.log('moving card from topic');
+            await Timeline.http.postJson('/api/card/move', { body: e.card });
+        },
         async updateCard(e) {
             console.log('updating');
             await Timeline.http.postJson('/api/card/update', {body: e.card});
