@@ -31,6 +31,12 @@ namespace Outermind.Queries
       Refresh(selected);
     }
 
+    void Given(CardRemoved e)
+    {
+      var selected = Matching(e.Card);
+      Stack.Remove(selected.Id);
+    }
+
     private Card Matching(Card existingCard) => Stack[existingCard.Id];
     private void Refresh(Card updatedCard) => Stack[updatedCard.Id] = updatedCard;
   }

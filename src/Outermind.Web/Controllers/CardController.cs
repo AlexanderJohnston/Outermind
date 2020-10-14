@@ -24,9 +24,9 @@ namespace Outermind.Controllers
     }
 
     [HttpGet("[action]")]
-    public async Task<IActionResult> Deck()
+    public async Task<IActionResult> Stack()
     {
-      return await _queries.Get<DeckQuery>();
+      return await _queries.Get<StackQuery>();
     }
 
     [HttpPut("[action]")]

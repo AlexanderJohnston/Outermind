@@ -19,5 +19,10 @@ namespace Outermind.Topics
     {
       Then(new CardResized(c.Card));
     }
+
+    void When(RemoveCard c)
+    {
+      Then(new CardRemoved(c.Card));
+    }
   }
 }

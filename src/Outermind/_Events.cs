@@ -57,4 +57,24 @@ namespace Outermind
       Card = card;
     }
   }
+
+  public class RemoveCard : Command
+  {
+    public readonly Card Card;
+
+    public RemoveCard(Card card)
+    {
+      Card = card;
+    }
+  }
+
+  public class CardRemoved : Event
+  {
+    public readonly Card Card;
+
+    public CardRemoved(Card card)
+    {
+      Card = card;
+    }
+  }
 }
