@@ -1,80 +1,98 @@
+using System;
+using System.Collections.Generic;
+using Totem;
 using Totem.Timeline;
 
 namespace Outermind
 {
-  public class CreateCard : Command
-  {
-    public readonly Card Card;
 
-    public CreateCard(Card card)
-    {
-      Card = card;
-    }
-  }
-  public class MoveCard : Command
-  {
-    public readonly Card Card;
 
-    public MoveCard(Card card)
-    {
-      Card = card;
-    }
-  }
-  public class ResizeCard : Command
-  {
-    public readonly Card Card;
 
-    public ResizeCard(Card card)
+
+  public class DeleteScan : Command
+  {
+    public Id Roll;
+
+    public DeleteScan(Id rollId)
     {
-      Card = card;
+      Roll = rollId;
     }
   }
 
-  public class CardCreated : Event
+  public class MoveScan : Command
   {
-    public readonly Card Card;
+    public Id Roll;
+    public Id Operator;
+    public string Source;
+    public string Destination;
 
-    public CardCreated(Card card)
+    public MoveScan(Id rollId, Id operatorId, string source, string destination)
     {
-      Card = card;
-    }
-  }
-  public class CardMoved : Event
-  {
-    public readonly Card Card;
-
-    public CardMoved(Card card)
-    {
-      Card = card;
-    }
-  }
-  public class CardResized : Event
-  {
-    public readonly Card Card;
-
-    public CardResized(Card card)
-    {
-      Card = card;
+      Roll = rollId;
+      Operator = operatorId;
+      Source = source;
+      Destination = destination;
     }
   }
 
-  public class RemoveCard : Command
+  public class OperatorReport : Command
   {
-    public readonly Card Card;
+    public Id Roll;
+    public Id Operator;
+    public string Notes;
 
-    public RemoveCard(Card card)
+    public OperatorReport(Id rollId, Id operatorId, string notes)
     {
-      Card = card;
+      Roll = rollId;
+      Operator = operatorId;
+      Notes = notes;
     }
   }
 
-  public class CardRemoved : Event
-  {
-    public readonly Card Card;
 
-    public CardRemoved(Card card)
+
+
+
+
+
+  public class ScanDeleted : Command
+  {
+    public Id Roll;
+
+    public ScanDeleted(Id rollId)
     {
-      Card = card;
+      Roll = rollId;
     }
   }
+
+  public class ScanMoved : Event
+  {
+    public Id Roll;
+    public Id Operator;
+    public string Source;
+    public string Destination;
+
+    public ScanMoved(Id rollId, Id operatorId, string source, string destination)
+    {
+      Roll = rollId;
+      Operator = operatorId;
+      Source = source;
+      Destination = destination;
+    }
+  }
+  public class ScanCommented : Event
+  {
+    public Id Roll;
+    public Id Operator;
+    public string Notes;
+
+    public ScanCommented(Id rollId, Id operatorId, string notes)
+    {
+      Roll = rollId;
+      Operator = operatorId;
+      Notes = notes;
+    }
+  }
+
+
 }

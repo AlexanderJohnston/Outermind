@@ -5,7 +5,7 @@ using Totem.Timeline;
 
 namespace Outermind.Topics
 {
-  public class CardManager : Topic
+  public class ScanManager : Topic
   {
     void When(CreateCard c)
     {
