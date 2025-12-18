@@ -1,0 +1,21 @@
+{
+  "plugins": [
+    "vue"
+  ],
+  "extends": [
+    "airbnb",
+    "plugin:vue/recommended"
+  ],
+  "rules": {
+    "linebreak-style": [2, "windows"],
+    "vue/script-indent": ["error", 2, {"baseIndent": 1}]
+  },
+  "overrides": [
+    {
+      "files": ["*.vue"],
+      "rules": {
+        "indent": "off" // general 'indent' rule is covered by 'vue/script-indent'
+      }
+    }
+  ]
+}
